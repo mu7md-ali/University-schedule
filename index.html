@@ -78,36 +78,63 @@
         </div>
     </div>
 
-    <!-- Controls -->
-    <div id="controlsArea" class="controls-area hidden">
-        <select id="sectionSelectMain" class="main-select" onchange="changeSection(this.value)">
-            <option value="">-- Select Section --</option>
-            <option value="1">Section 1</option><option value="2">Section 2</option>
-            <option value="3">Section 3</option><option value="4">Section 4</option>
-            <option value="5">Section 5</option><option value="6">Section 6</option>
-            <option value="7">Section 7</option><option value="8">Section 8</option>
-            <option value="9">Section 9</option><option value="10">Section 10</option>
-            <option value="11">Section 11</option><option value="12">Section 12</option>
-            <option value="13">Section 13</option><option value="14">Section 14</option>
-            <option value="15">Section 15</option><option value="16">Section 16</option>
-            <option value="17">✏️ Custom Schedule</option>
-        </select>
-        <div class="ctrl-btns">
-            <button onclick="showGroupSchedule('A')" id="groupABtn" class="btn btn-a"><i class="fas fa-users"></i><span>Group A</span></button>
-            <button onclick="showGroupSchedule('B')" id="groupBBtn" class="btn btn-b"><i class="fas fa-users"></i><span>Group B</span></button>
-            <button onclick="printTable()" id="printBtn" class="btn btn-print"><i class="fas fa-print"></i><span>Print / PDF</span></button>
-            <button onclick="printGroupTable()" id="printGroupBtn" class="btn btn-print hidden"><i class="fas fa-print"></i><span>Print / PDF</span></button>
-            <button onclick="backToSection()" id="backBtn" class="btn btn-back hidden"><i class="fas fa-arrow-left"></i><span>Back</span></button>
-            <button onclick="showAcademicCalendar()" class="btn btn-cal"><i class="fas fa-calendar-alt"></i><span>Calendar</span></button>
-            <button onclick="openEnglishSchedule()" id="englishBtn" class="btn btn-english hidden"><i class="fas fa-chalkboard-teacher"></i><span>English</span></button>
-            <button onclick="openCurrentSectionStudents()" id="sectionStudentsBtn" class="btn btn-students hidden"><i class="fas fa-user-graduate"></i><span>View Students</span></button>
-            <!-- Edit buttons — visible only for Section 17 -->
-            <button onclick="enableEditing()" id="editBtn" class="btn btn-edit hidden"><i class="fas fa-edit"></i><span>Edit</span></button>
-            <button onclick="saveEditing()" id="saveEditBtn" class="btn btn-save hidden"><i class="fas fa-check"></i><span>Save</span></button>
-            <button onclick="cancelEditing()" id="cancelEditBtn" class="btn btn-cancel hidden"><i class="fas fa-times"></i><span>Cancel</span></button>
-        </div>
-    </div>
-
+  <!-- Controls -->
+<div id="controlsArea" class="controls-area hidden">
+  <select id="sectionSelectMain" class="main-select" onchange="changeSection(this.value)">
+    <option value="">-- Select Section --</option>
+    <option value="1">Section 1</option><option value="2">Section 2</option>
+    <option value="3">Section 3</option><option value="4">Section 4</option>
+    <option value="5">Section 5</option><option value="6">Section 6</option>
+    <option value="7">Section 7</option><option value="8">Section 8</option>
+    <option value="9">Section 9</option><option value="10">Section 10</option>
+    <option value="11">Section 11</option><option value="12">Section 12</option>
+    <option value="13">Section 13</option><option value="14">Section 14</option>
+    <option value="15">Section 15</option><option value="16">Section 16</option>
+    <option value="17">✏️ Custom Schedule</option>
+  </select>
+  <div class="ctrl-btns">
+    <button onclick="showGroupSchedule('A')" id="groupABtn" class="btn btn-a">
+      <i class="fas fa-users"></i><span>Group A</span>
+    </button>
+    <button onclick="showGroupSchedule('B')" id="groupBBtn" class="btn btn-b">
+      <i class="fas fa-users"></i><span>Group B</span>
+    </button>
+    
+    <!-- NEW: English Schedule Button -->
+    <button onclick="openEnglishSchedule()" class="btn btn-english">
+      <i class="fas fa-language"></i><span>English</span>
+    </button>
+    
+    <!-- NEW: Students Names Button -->
+    <button onclick="openStudentsNames()" class="btn btn-students">
+      <i class="fas fa-user-graduate"></i><span>Students</span>
+    </button>
+    
+    <button onclick="printTable()" id="printBtn" class="btn btn-print">
+      <i class="fas fa-print"></i><span>Print / PDF</span>
+    </button>
+    <button onclick="printGroupTable()" id="printGroupBtn" class="btn btn-print hidden">
+      <i class="fas fa-print"></i><span>Print / PDF</span>
+    </button>
+    <button onclick="backToSection()" id="backBtn" class="btn btn-back hidden">
+      <i class="fas fa-arrow-left"></i><span>Back</span>
+    </button>
+    <button onclick="showAcademicCalendar()" class="btn btn-cal">
+      <i class="fas fa-calendar-alt"></i><span>Calendar</span>
+    </button>
+    
+    <!-- Edit buttons — visible only for Section 17 -->
+    <button onclick="enableEditing()" id="editBtn" class="btn btn-edit hidden">
+      <i class="fas fa-edit"></i><span>Edit</span>
+    </button>
+    <button onclick="saveEditing()" id="saveEditBtn" class="btn btn-save hidden">
+      <i class="fas fa-check"></i><span>Save</span>
+    </button>
+    <button onclick="cancelEditing()" id="cancelEditBtn" class="btn btn-cancel hidden">
+      <i class="fas fa-times"></i><span>Cancel</span>
+    </button>
+  </div>
+</div>
     <!-- Section View -->
     <div id="sectionView" class="hidden table-card">
         <div id="captureArea">
