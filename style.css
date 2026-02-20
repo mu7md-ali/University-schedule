@@ -895,3 +895,710 @@ body {
 .grp-scroll::-webkit-scrollbar-track { background:transparent; }
 .tbl-scroll::-webkit-scrollbar-thumb { background:rgba(0,212,255,.3); border-radius:10px; }
 .grp-scroll::-webkit-scrollbar-thumb { background:rgba(0,212,255,.3); border-radius:10px; }
+/* ============================================
+   ENGLISH SCHEDULE MODAL - RAMADAN THEME
+   ============================================ */
+
+.english-schedule-modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 5, 31, 0.9);
+  backdrop-filter: blur(15px);
+  z-index: 9999;
+  padding: 2rem 1rem;
+  overflow-y: auto;
+  animation: fadeIn 0.3s ease;
+}
+
+.english-schedule-modal.active {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.english-schedule-content {
+  background: linear-gradient(135deg, 
+    rgba(255, 215, 0, 0.1), 
+    rgba(147, 112, 219, 0.08));
+  backdrop-filter: blur(20px) saturate(160%);
+  border: 2px solid rgba(255, 215, 0, 0.3);
+  border-radius: 20px;
+  max-width: 900px;
+  width: 100%;
+  max-height: 85vh;
+  overflow-y: auto;
+  box-shadow: 
+    0 20px 60px rgba(255, 215, 0, 0.3),
+    0 0 80px rgba(255, 215, 0, 0.1);
+  animation: slideUp 0.4s ease;
+  position: relative;
+}
+
+.english-schedule-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem 2rem;
+  border-bottom: 2px solid rgba(255, 215, 0, 0.3);
+  background: linear-gradient(135deg, 
+    rgba(255, 215, 0, 0.15), 
+    rgba(147, 112, 219, 0.08));
+  border-radius: 18px 18px 0 0;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  backdrop-filter: blur(20px);
+}
+
+.english-schedule-title {
+  font-size: 1.75rem;
+  font-weight: 900;
+  color: var(--accent);
+  text-shadow: 0 0 30px rgba(255, 215, 0, 0.5);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.english-schedule-close {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 0, 0, 0.3);
+  background: rgba(255, 0, 0, 0.1);
+  color: #ff4444;
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.english-schedule-close:hover {
+  background: rgba(255, 0, 0, 0.2);
+  box-shadow: 0 0 20px rgba(255, 0, 0, 0.4);
+  transform: rotate(90deg);
+}
+
+.english-schedule-body {
+  padding: 2rem;
+}
+
+.schedule-category {
+  margin-bottom: 2.5rem;
+}
+
+.schedule-category:last-child {
+  margin-bottom: 0;
+}
+
+.category-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--green);
+  margin-bottom: 1.25rem;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  text-shadow: 0 0 15px rgba(0, 255, 136, 0.4);
+}
+
+.schedule-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: rgba(26, 10, 62, 0.5);
+  border: 1px solid rgba(255, 215, 0, 0.2);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+}
+
+.schedule-table thead {
+  background: linear-gradient(135deg, 
+    rgba(255, 215, 0, 0.2), 
+    rgba(147, 112, 219, 0.05));
+  position: sticky;
+  top: 0;
+  z-index: 5;
+}
+
+.schedule-table th {
+  padding: 1rem;
+  text-align: center;
+  color: var(--accent);
+  font-weight: 700;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-bottom: 2px solid rgba(255, 215, 0, 0.3);
+}
+
+.schedule-table td {
+  padding: 1rem;
+  text-align: center;
+  border-bottom: 1px solid rgba(255, 215, 0, 0.1);
+  color: var(--txt2);
+  font-size: 0.95rem;
+}
+
+.schedule-table tbody tr {
+  transition: all 0.3s ease;
+}
+
+.schedule-table tbody tr:hover {
+  background: rgba(255, 215, 0, 0.05);
+}
+
+.level-badge {
+  display: inline-block;
+  padding: 0.4rem 0.8rem;
+  background: linear-gradient(135deg, 
+    rgba(0, 212, 255, 0.3), 
+    rgba(0, 212, 255, 0.1));
+  color: #fff;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 0.9rem;
+  border: 1px solid rgba(0, 212, 255, 0.4);
+  box-shadow: 0 4px 12px rgba(0, 212, 255, 0.3);
+}
+
+.day-badge {
+  font-weight: 600;
+  color: var(--green);
+}
+
+.period-badge {
+  font-weight: 700;
+  color: var(--accent);
+  background: rgba(255, 215, 0, 0.1);
+  padding: 0.3rem 0.6rem;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 215, 0, 0.3);
+}
+
+.location-badge {
+  font-weight: 500;
+  color: var(--purple);
+}
+
+.instructor-name {
+  font-style: italic;
+  color: var(--txt);
+  font-weight: 500;
+}
+
+/* ============================================
+   STUDENTS NAMES MODAL - RAMADAN THEME
+   ============================================ */
+
+.students-names-modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 5, 31, 0.9);
+  backdrop-filter: blur(15px);
+  z-index: 9999;
+  padding: 2rem 1rem;
+  overflow-y: auto;
+  animation: fadeIn 0.3s ease;
+}
+
+.students-names-modal.active {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.students-names-content {
+  background: linear-gradient(135deg, 
+    rgba(255, 215, 0, 0.1), 
+    rgba(147, 112, 219, 0.08));
+  backdrop-filter: blur(20px) saturate(160%);
+  border: 2px solid rgba(255, 215, 0, 0.3);
+  border-radius: 20px;
+  max-width: 800px;
+  width: 100%;
+  max-height: 85vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 
+    0 20px 60px rgba(255, 215, 0, 0.3),
+    0 0 80px rgba(255, 215, 0, 0.1);
+  animation: slideUp 0.4s ease;
+  position: relative;
+}
+
+.students-names-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem 2rem;
+  border-bottom: 2px solid rgba(255, 215, 0, 0.3);
+  background: linear-gradient(135deg, 
+    rgba(255, 215, 0, 0.15), 
+    rgba(147, 112, 219, 0.08));
+  border-radius: 18px 18px 0 0;
+  backdrop-filter: blur(20px);
+}
+
+.students-names-title {
+  font-size: 1.75rem;
+  font-weight: 900;
+  color: var(--accent);
+  text-shadow: 0 0 30px rgba(255, 215, 0, 0.5);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.students-names-close {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 0, 0, 0.3);
+  background: rgba(255, 0, 0, 0.1);
+  color: #ff4444;
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.students-names-close:hover {
+  background: rgba(255, 0, 0, 0.2);
+  box-shadow: 0 0 20px rgba(255, 0, 0, 0.4);
+  transform: rotate(90deg);
+}
+
+.students-names-body {
+  padding: 2rem;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.section-selector {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  justify-content: center;
+  margin-bottom: 2rem;
+  padding: 1.5rem;
+  background: rgba(26, 10, 62, 0.5);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 215, 0, 0.2);
+}
+
+.section-btn {
+  padding: 0.6rem 1.2rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 2px solid rgba(255, 215, 0, 0.3);
+  border-radius: 10px;
+  color: var(--txt2);
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.section-btn:hover,
+.section-btn.active {
+  background: linear-gradient(135deg, 
+    rgba(255, 215, 0, 0.25), 
+    rgba(147, 112, 219, 0.15));
+  border-color: var(--accent);
+  color: var(--accent);
+  box-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
+  font-weight: 800;
+}
+
+.section-btn.group-a {
+  border-color: rgba(0, 255, 136, 0.3);
+}
+
+.section-btn.group-a.active,
+.section-btn.group-a:hover {
+  border-color: var(--green);
+  color: var(--green);
+  box-shadow: 0 0 20px rgba(0, 255, 136, 0.3);
+}
+
+.section-btn.group-b {
+  border-color: rgba(255, 107, 0, 0.3);
+}
+
+.section-btn.group-b.active,
+.section-btn.group-b:hover {
+  border-color: var(--orange);
+  color: var(--orange);
+  box-shadow: 0 0 20px rgba(255, 107, 0, 0.3);
+}
+
+.search-box {
+  position: relative;
+  margin-bottom: 1.5rem;
+}
+
+.search-box input {
+  width: 100%;
+  padding: 1rem 1rem 1rem 3.5rem;
+  background: rgba(26, 10, 62, 0.5);
+  border: 2px solid rgba(255, 215, 0, 0.2);
+  border-radius: 12px;
+  color: var(--txt);
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.search-box input:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+}
+
+.search-box i {
+  position: absolute;
+  left: 1.25rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--accent);
+  font-size: 1.1rem;
+}
+
+.student-count {
+  text-align: center;
+  color: var(--txt2);
+  margin-bottom: 1.25rem;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.students-table-wrapper {
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 215, 0, 0.2);
+  background: rgba(26, 10, 62, 0.5);
+}
+
+.students-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.students-table thead {
+  background: linear-gradient(135deg, 
+    rgba(255, 215, 0, 0.15), 
+    rgba(147, 112, 219, 0.05));
+  position: sticky;
+  top: 0;
+  z-index: 5;
+}
+
+.students-table th {
+  padding: 1rem;
+  text-align: left;
+  color: var(--accent);
+  font-weight: 700;
+  font-size: 0.95rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-bottom: 2px solid rgba(255, 215, 0, 0.3);
+}
+
+.students-table th:first-child {
+  text-align: center;
+  width: 80px;
+}
+
+.students-table tbody tr {
+  border-bottom: 1px solid rgba(255, 215, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.students-table tbody tr:hover {
+  background: rgba(255, 215, 0, 0.05);
+}
+
+.students-table tbody tr:last-child {
+  border-bottom: none;
+}
+
+.students-table td {
+  padding: 1rem;
+  color: var(--txt2);
+  font-size: 0.95rem;
+}
+
+.students-table td:first-child {
+  text-align: center;
+  font-weight: 700;
+  color: var(--accent);
+  font-size: 1rem;
+}
+
+/* ⭐ SPECIAL STUDENT - محمد علي ⭐ */
+.students-table tbody tr.special-student {
+  background: linear-gradient(135deg, 
+    rgba(255, 215, 0, 0.25), 
+    rgba(255, 140, 0, 0.15)) !important;
+  position: relative;
+  animation: specialGlow 2s ease-in-out infinite;
+}
+
+.students-table tbody tr.special-student td {
+  color: var(--accent) !important;
+  font-weight: 800 !important;
+  text-shadow: 0 0 15px rgba(255, 215, 0, 0.8);
+  font-size: 1.05rem !important;
+}
+
+.students-table tbody tr.special-student td:first-child {
+  color: var(--accent) !important;
+}
+
+.students-table tbody tr.special-student::before {
+  content: '⭐';
+  position: absolute;
+  left: 0.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.75rem;
+  animation: starRotate 3s linear infinite, starPulse 1.5s ease-in-out infinite;
+}
+
+.students-table tbody tr.special-student::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border: 2px solid rgba(255, 215, 0, 0.4);
+  border-radius: 6px;
+  pointer-events: none;
+  animation: borderGlow 2s ease-in-out infinite;
+}
+
+@keyframes specialGlow {
+  0%, 100% {
+    box-shadow: 0 0 25px rgba(255, 215, 0, 0.5), 
+                inset 0 0 25px rgba(255, 215, 0, 0.15);
+  }
+  50% {
+    box-shadow: 0 0 45px rgba(255, 215, 0, 0.8), 
+                inset 0 0 45px rgba(255, 215, 0, 0.25);
+  }
+}
+
+@keyframes starRotate {
+  from { transform: translateY(-50%) rotate(0deg); }
+  to { transform: translateY(-50%) rotate(360deg); }
+}
+
+@keyframes starPulse {
+  0%, 100% { opacity: 0.8; }
+  50% { opacity: 1; }
+}
+
+@keyframes borderGlow {
+  0%, 100% { border-color: rgba(255, 215, 0, 0.3); }
+  50% { border-color: rgba(255, 215, 0, 0.8); }
+}
+
+/* ============================================
+   NEW BUTTON STYLES
+   ============================================ */
+
+.btn-english {
+  background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+  color: #fff;
+}
+
+.btn-english:hover {
+  box-shadow: 0 8px 22px rgba(59, 130, 246, 0.4);
+  transform: translateY(-2px);
+}
+
+.btn-students {
+  background: linear-gradient(135deg, #8b5cf6, #6d28d9);
+  color: #fff;
+}
+
+.btn-students:hover {
+  box-shadow: 0 8px 22px rgba(139, 92, 246, 0.4);
+  transform: translateY(-2px);
+}
+
+/* Show Students Button in Section Table */
+.show-students-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background: linear-gradient(135deg, 
+    rgba(139, 92, 246, 0.2), 
+    rgba(139, 92, 246, 0.1));
+  border: 2px solid rgba(139, 92, 246, 0.4);
+  border-radius: 12px;
+  color: var(--purple);
+  font-weight: 700;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 1.5rem;
+  font-family: 'Tajawal', 'Inter', sans-serif;
+}
+
+.show-students-btn:hover {
+  background: linear-gradient(135deg, 
+    rgba(139, 92, 246, 0.3), 
+    rgba(139, 92, 246, 0.2));
+  border-color: var(--purple);
+  box-shadow: 0 0 25px rgba(139, 92, 246, 0.4);
+  transform: translateY(-2px);
+}
+
+.show-students-btn i {
+  font-size: 1rem;
+}
+
+/* ============================================
+   SWIPEABLE TOAST
+   ============================================ */
+
+.toast {
+  position: relative;
+  touch-action: pan-y;
+  user-select: none;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.toast.swiping {
+  transition: none;
+}
+
+.toast.swiped-left,
+.toast.swiped-right {
+  opacity: 0;
+  transform: translateX(var(--swipe-direction, 100px));
+}
+
+.toast::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background: rgba(255, 255, 255, 0.3);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.toast.swiping-left::after {
+  left: 0;
+  opacity: 1;
+  background: linear-gradient(to right, #ef4444, transparent);
+}
+
+.toast.swiping-right::after {
+  right: 0;
+  opacity: 1;
+  background: linear-gradient(to left, #10b981, transparent);
+}
+
+/* ============================================
+   LIGHT MODE SUPPORT
+   ============================================ */
+
+[data-theme="light"] .english-schedule-modal,
+[data-theme="light"] .students-names-modal {
+  background: rgba(255, 255, 255, 0.85);
+}
+
+[data-theme="light"] .english-schedule-content,
+[data-theme="light"] .students-names-content {
+  box-shadow: 0 20px 60px rgba(0, 102, 179, 0.25), 0 0 80px rgba(0, 102, 179, 0.08);
+}
+
+[data-theme="light"] .schedule-table,
+[data-theme="light"] .students-table-wrapper {
+  background: #f0f9ff;
+  border-color: rgba(29, 78, 216, 0.2);
+}
+
+[data-theme="light"] .section-selector,
+[data-theme="light"] .search-box input {
+  background: #f0f9ff;
+  border-color: rgba(29, 78, 216, 0.2);
+}
+
+[data-theme="light"] .students-table tbody tr.special-student {
+  background: linear-gradient(135deg, 
+    rgba(218, 165, 32, 0.25), 
+    rgba(255, 193, 7, 0.15)) !important;
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+
+@media (max-width: 768px) {
+  .english-schedule-content,
+  .students-names-content {
+    max-width: 95%;
+    max-height: 90vh;
+  }
+  
+  .english-schedule-header,
+  .students-names-header {
+    padding: 1rem;
+  }
+  
+  .english-schedule-title,
+  .students-names-title {
+    font-size: 1.25rem;
+  }
+  
+  .english-schedule-close,
+  .students-names-close {
+    width: 38px;
+    height: 38px;
+    font-size: 1.2rem;
+  }
+  
+  .english-schedule-body,
+  .students-names-body {
+    padding: 1rem;
+  }
+  
+  .section-selector {
+    gap: 0.5rem;
+    padding: 1rem;
+  }
+  
+  .section-btn {
+    padding: 0.5rem 0.8rem;
+    font-size: 0.8rem;
+  }
+  
+  .schedule-table thead th,
+  .schedule-table tbody td,
+  .students-table thead th,
+  .students-table tbody td {
+    padding: 0.75rem 0.5rem;
+    font-size: 0.85rem;
+  }
+  
+  .students-table tbody tr.special-student::before {
+    font-size: 1.25rem;
+    left: 0.25rem;
+  }
+  
+  .level-badge {
+    padding: 0.3rem 0.6rem;
+    font-size: 0.75rem;
+  }
+}
