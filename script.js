@@ -165,6 +165,23 @@ function changeSection(num) {
         if (area) area.contentEditable = 'false';
     }
 
+    // Show English and Students buttons (hide for custom schedule)
+    const englishBtn = document.getElementById('englishBtn');
+    const studentsBtn = document.getElementById('sectionStudentsBtn');
+    if (num === '17') {
+        // Hide for custom schedule
+        englishBtn?.classList.add('hidden');
+        studentsBtn?.classList.add('hidden');
+    } else {
+        // Show for regular sections (1-16)
+        englishBtn?.classList.remove('hidden');
+        studentsBtn?.classList.remove('hidden');
+        // Update students button text with current section
+        if (studentsBtn) {
+            studentsBtn.innerHTML = `<i class="fas fa-user-graduate"></i><span>Section ${num} Students</span>`;
+        }
+    }
+
     // sync selects
     ['sectionSelect','sectionSelectMain'].forEach(id => {
         const el = document.getElementById(id);
@@ -839,3 +856,20 @@ document.addEventListener('keydown', (e) => {
 // ============================================
 window.addEventListener('online',  () => showToast('متصل بالإنترنت ✅', 'success'));
 window.addEventListener('offline', () => showToast('غير متصل — التطبيق لا يزال يعمل 📴', 'info'));
+
+// ============================================
+// OPEN CURRENT SECTION STUDENTS
+// ============================================
+function openCurrentSectionStudents() {
+    if (!currentSection || currentSection === '17') {
+        showToast('اختر سكشن أولاً', 'error');
+        return;
+    }
+    // Call the function from students-names.js to open modal with current section
+    if (typeof openStudentsNamesWithSection === 'function') {
+        openStudentsNamesWithSection(parseInt(currentSection));
+    } else {
+        console.error('students-names.js not loaded');
+        showToast('حدث خطأ في تحميل بيانات الطلاب', 'error');
+    }
+}

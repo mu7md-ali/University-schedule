@@ -1,7 +1,7 @@
 // Students Names Modal Management
 
 let studentsData = null;
-let currentSection = null;
+let currentStudentsSection = null;
 const SPECIAL_STUDENT = "محمد على السيد على سالم شرف الدين";
 
 // Load Students Data
@@ -40,6 +40,23 @@ function openStudentsNames() {
         }, 500);
     } else {
         displayStudentsModal();
+    }
+}
+
+// Open Students Names Modal with specific section
+function openStudentsNamesWithSection(sectionNum) {
+    if (!studentsData) {
+        showToast('Loading data...', 'info');
+        loadStudentsData();
+        setTimeout(() => {
+            if (studentsData) {
+                displayStudentsModal();
+                showStudentsBySection(sectionNum);
+            }
+        }, 500);
+    } else {
+        displayStudentsModal();
+        showStudentsBySection(sectionNum);
     }
 }
 
@@ -82,7 +99,7 @@ function generateSectionButtons() {
 
 // Show Students by Section
 function showStudentsBySection(sectionNumber) {
-    currentSection = sectionNumber;
+    currentStudentsSection = sectionNumber;
     
     const sectionData = studentsData.find(s => s.section === sectionNumber);
     if (!sectionData) {
@@ -182,7 +199,7 @@ function closeStudentsNames() {
     if (modal) {
         modal.classList.remove('active');
         document.body.style.overflow = '';
-        currentSection = null;
+        currentStudentsSection = null;
     }
 }
 
