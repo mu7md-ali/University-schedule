@@ -873,3 +873,347 @@ function openCurrentSectionStudents() {
         showToast('حدث خطأ في تحميل بيانات الطلاب', 'error');
     }
 }
+// ============================================
+// ENGLISH SCHEDULE MANAGEMENT
+// ============================================
+
+let englishScheduleData = null;
+
+async function loadEnglishScheduleData() {
+  try {
+    const res = await fetch('english-schedule-data.json');
+    englishScheduleData = await res.json();
+    console.log('✅ English schedule data loaded');
+  } catch (err) {
+    console.error('❌ Failed to load English schedule:', err);
+    showToast('Failed to load English schedule', 'error');
+  }
+}
+
+function openEnglishSchedule() {
+  if (!englishScheduleData) {
+    showToast('Loading...', 'info');
+    loadEnglishScheduleData().then(() => {
+      if (englishScheduleData) displayEnglishSchedule();
+    });
+  } else {
+    displayEnglishSchedule();
+  }
+}
+
+function displayEnglishSchedule() {
+  const modal = document.getElementById('englishScheduleModal');
+  const body = document.getElementById('englishScheduleBody');
+  
+  if (!modal || !body) {
+    console.error('English Schedule modal elements not found');
+    return;
+  }
+  
+  body.innerHTML = englishScheduleData.sections.map(section => `
+    <div class="schedule-category">
+      <h3 class="category-title">
+        <i class="fas fa-graduation-cap"></i> ${section.category}
+      </h3>
+      <table class="schedule-table">
+        <thead>
+          <tr>
+            <th><i class="fas fa-layer-group"></i> Level</th>
+            <th><i class="fas fa-calendar-day"></i> Day</th>
+            <th><i class="fas fa-clock"></i> Period</th>
+            <th><i class="fas fa-map-marker-alt"></i> Location</th>
+            <th><i class="fas fa-user-tie"></i> Instructor</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${section.schedule.map(item => `
+            <tr>
+              <td><span class="level-badge">Level ${item.level}</span></td>
+              <td><span class="day-badge">${item.day}</span></td>
+              <td><span class="period-badge">${item.period}</span></td>
+              <td><span class="location-badge">${item.location}</span></td>
+              <td><span class="instructor-name">${item.instructor}</span></td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+    </div>
+  `).join('');
+  
+  modal.classList.add('active');
+  document.body.style.overflow = 'hidden';
+  showToast('English Schedule Loaded ✅', 'success');
+}
+
+function closeEnglishSchedule() {
+  const modal = document.getElementById('englishScheduleModal');
+  if (modal) {
+    modal.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+}
+
+// ============================================
+// STUDENTS NAMES MANAGEMENT
+// ============================================
+
+let studentsNamesData = null;
+let currentStudentsSection = null;
+
+async function loadStudentsNamesData() {
+  try {
+    const res = await fetch('students-names-data.json');
+    studentsNamesData = await res.json();
+    console.log('✅ Students names data loaded');
+  } catch (err) {
+    console.error('❌ Failed to load students data:', err);
+    showToast('Failed to load students data', 'error');
+  }
+}
+
+function openStudentsNames(sectionNum = null) {
+  if (!studentsNamesData) {
+    showToast('Loading...', 'info');
+    loadStudentsNamesData().then(() => {
+      if (studentsNamesData) displayStudentsNames(sectionNum);
+    });
+  } else {
+    displayStudentsNames(sectionNum);
+  }
+}
+
+function displayStudentsNames(sectionNum = null) {
+  const modal = document.getElementById('studentsNamesModal');
+  
+  if (!modal || !studentsNamesData) {
+    console.error('Students Names modal or data not found');
+    return;
+  }
+  
+  // Generate section buttons
+  const sectionBtns = document.getElementById('sectionButtonsContainer');
+  if (sectionBtns) {
+    sectionBtns.innerHTML = studentsNamesData.sections.map(s => `
+      <button class="section-btn ${s.group === 'A' ? 'group-a' : 'group-b'} ${s.section === sectionNum ? 'active' : ''}" 
+              onclick="showStudentsBySection(${s.section})">
+        Section ${s.section}
+      </button>
+    `).join('');
+  }
+  
+  // Show specific section or first one
+  if (sectionNum) {
+    showStudentsBySection(sectionNum);
+  } else if (studentsNamesData.sections.length > 0) {
+    showStudentsBySection(studentsNamesData.sections[0].section);
+  }
+  
+  modal.classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function showStudentsBySection(sectionNum) {
+  currentStudentsSection = sectionNum;
+  const section = studentsNamesData.sections.find(s => s.section === sectionNum);
+  if (!section) return;
+  
+  // Update active button
+  document.querySelectorAll('.section-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.textContent.includes(sectionNum));
+  });
+  
+  // Update title
+  const titleEl = document.getElementById('currentSectionTitle');
+  if (titleEl) {
+    titleEl.innerHTML = `<i class="fas fa-user-graduate"></i> Section ${sectionNum} - Group ${section.group}`;
+  }
+  
+  // Update count
+  const countEl = document.getElementById('studentCount');
+  if (countEl) {
+    countEl.textContent = `Total Students: ${section.students.length}`;
+  }
+  
+  // Display students with special highlight
+  const tbody = document.getElementById('studentsTableBody');
+  if (tbody) {
+    tbody.innerHTML = section.students.map(student => `
+      <tr class="${student.special ? 'special-student' : ''}">
+        <td>${student.rank}</td>
+        <td>${student.name}</td>
+      </tr>
+    `).join('');
+  }
+  
+  // Clear search
+  const searchInput = document.getElementById('studentsSearchInput');
+  if (searchInput) searchInput.value = '';
+}
+
+function filterStudents() {
+  const searchInput = document.getElementById('studentsSearchInput');
+  if (!searchInput) return;
+  
+  const searchValue = searchInput.value.trim().toLowerCase();
+  const rows = document.querySelectorAll('#studentsTableBody tr');
+  let visibleCount = 0;
+  
+  rows.forEach(row => {
+    const nameCell = row.querySelector('td:last-child');
+    if (!nameCell) return;
+    
+    const name = nameCell.textContent.toLowerCase();
+    const isVisible = name.includes(searchValue);
+    row.style.display = isVisible ? '' : 'none';
+    if (isVisible) visibleCount++;
+  });
+  
+  // Update count
+  const totalCount = rows.length;
+  const countEl = document.getElementById('studentCount');
+  if (countEl) {
+    countEl.textContent = searchValue 
+      ? `Showing ${visibleCount} of ${totalCount} students`
+      : `Total Students: ${totalCount}`;
+  }
+}
+
+function closeStudentsNames() {
+  const modal = document.getElementById('studentsNamesModal');
+  if (modal) {
+    modal.classList.remove('active');
+    document.body.style.overflow = '';
+    currentStudentsSection = null;
+  }
+}
+
+// Add "Show Students" button to section table
+function addStudentsButtonToSection() {
+  const captureArea = document.getElementById('captureArea');
+  if (!captureArea || currentSection === '17') return;
+  
+  // Check if button already exists
+  if (captureArea.querySelector('.show-students-btn')) return;
+  
+  const btn = document.createElement('button');
+  btn.className = 'show-students-btn';
+  btn.innerHTML = '<i class="fas fa-users"></i> Show Students';
+  btn.onclick = () => openStudentsNames(parseInt(currentSection));
+  
+  // Add after table
+  const table = captureArea.querySelector('.sched-table');
+  if (table) {
+    table.after(btn);
+  }
+}
+
+// ============================================
+// SWIPEABLE TOAST
+// ============================================
+
+function initSwipeableToasts() {
+  const container = document.getElementById('toastContainer');
+  if (!container) return;
+  
+  let startX = 0;
+  let currentToast = null;
+  
+  container.addEventListener('touchstart', (e) => {
+    const toast = e.target.closest('.toast');
+    if (!toast) return;
+    
+    startX = e.touches[0].clientX;
+    currentToast = toast;
+    toast.classList.add('swiping');
+  }, { passive: true });
+  
+  container.addEventListener('touchmove', (e) => {
+    if (!currentToast) return;
+    
+    const currentX = e.touches[0].clientX;
+    const diff = currentX - startX;
+    
+    currentToast.style.setProperty('--swipe-direction', `${diff}px`);
+    currentToast.style.transform = `translateX(${diff}px)`;
+    
+    if (diff > 0) {
+      currentToast.classList.add('swiping-right');
+      currentToast.classList.remove('swiping-left');
+    } else {
+      currentToast.classList.add('swiping-left');
+      currentToast.classList.remove('swiping-right');
+    }
+  }, { passive: true });
+  
+  container.addEventListener('touchend', (e) => {
+    if (!currentToast) return;
+    
+    const currentX = e.changedTouches[0].clientX;
+    const diff = currentX - startX;
+    const threshold = 100; // px to trigger dismiss
+    
+    if (Math.abs(diff) > threshold) {
+      currentToast.classList.add(diff > 0 ? 'swiped-right' : 'swiped-left');
+      setTimeout(() => currentToast.remove(), 300);
+    } else {
+      currentToast.style.transform = '';
+      currentToast.classList.remove('swiping', 'swiping-left', 'swiping-right');
+    }
+    
+    currentToast = null;
+  });
+}
+
+// ============================================
+// UPDATED CHANGE SECTION
+// ============================================
+
+const originalChangeSection = changeSection;
+changeSection = function(num) {
+  // Call original function
+  const result = originalChangeSection(num);
+  
+  // Add students button for regular sections (not custom)
+  if (num && num !== '17') {
+    setTimeout(addStudentsButtonToSection, 100);
+  }
+  
+  return result;
+};
+
+// ============================================
+// INITIALIZATION
+// ============================================
+
+document.addEventListener('DOMContentLoaded', () => {
+  // Load data
+  loadEnglishScheduleData();
+  loadStudentsNamesData();
+  
+  // Init swipeable toasts
+  initSwipeableToasts();
+  
+  // Close modals on ESC
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      closeEnglishSchedule();
+      closeStudentsNames();
+    }
+  });
+  
+  // Close modals on background click
+  const englishModal = document.getElementById('englishScheduleModal');
+  const studentsModal = document.getElementById('studentsNamesModal');
+  
+  if (englishModal) {
+    englishModal.addEventListener('click', (e) => {
+      if (e.target === englishModal) closeEnglishSchedule();
+    });
+  }
+  
+  if (studentsModal) {
+    studentsModal.addEventListener('click', (e) => {
+      if (e.target === studentsModal) closeStudentsNames();
+    });
+  }
+});
