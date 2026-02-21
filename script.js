@@ -1212,9 +1212,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
-// English Schedule Modal Management
-
-let englishScheduleData = null;
 
 // Load English Schedule Data
 async function loadEnglishScheduleData() {
