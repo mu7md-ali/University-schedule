@@ -1537,12 +1537,10 @@ body {
 }
 
 /* Light Mode Support */
-[data-theme="light"] .students-names-modal {
-    background: rgba(240, 248, 255, 0.9);
-}
-
-[data-theme="light"] .students-names-content {
-    box-shadow: 0 20px 60px rgba(0, 212, 255, 0.3), 0 0 80px rgba(0, 212, 255, 0.15);
-}
-
 [data-theme="light"] .students-table tbody tr.special-student {
+    background: linear-gradient(135deg, rgba(255, 215, 0, 0.15), rgba(255, 165, 0, 0.08)) !important;
+}
+[data-theme="light"] .students-table tbody tr.special-student td {
+    color: #d4af37 !important;
+    text-shadow: 0 0 10px rgba(212, 175, 55, 0.4);
+}
